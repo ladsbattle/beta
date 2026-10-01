@@ -40,13 +40,13 @@
 
   /* per-orbit colours (chip bg / card top bar / badge) */
   --col-open:   #d4d4d4; --col-open-bg:   rgba(212,212,212,0.13); --col-open-border:   rgba(212,212,212,0.4);
-  --col-light:  #c9b8ff; --col-light-bg:  rgba(201,184,255,0.13); --col-light-border:  rgba(201,184,255,0.4);
-  --col-ice:    #93d4ff; --col-ice-bg:    rgba(147,212,255,0.13); --col-ice-border:    rgba(147,212,255,0.4);
-  --col-fire:   #ffb3c1; --col-fire-bg:   rgba(255,179,193,0.13); --col-fire-border:   rgba(255,179,193,0.4);
-  --col-energy: #ff9999; --col-energy-bg: rgba(255,153,153,0.13); --col-energy-border: rgba(255,153,153,0.4);
-  --col-gravity:#ffb47a; --col-gravity-bg:rgba(255,207,145,0.13); --col-gravity-border:rgba(255,207,145,0.4);
+  --col-light:  #bca5ff; --col-light-bg:  rgba(188,165,255,0.13); --col-light-border:  rgba(188,165,255,0.4);
+  --col-ice:    #72c9ff; --col-ice-bg:    rgba(114,201,255,0.13); --col-ice-border:    rgba(114,201,255,0.4);
+  --col-fire:   #f5a3cf; --col-fire-bg:   rgba(245,163,207,0.13); --col-fire-border:   rgba(245,163,207,0.4);
+  --col-energy: #ff7f87; --col-energy-bg: rgba(255,127,135,0.13); --col-energy-border: rgba(255,127,135,0.4);
+  --col-gravity:#ffb47a; --col-gravity-bg:rgba(255,180,122,0.13); --col-gravity-border:rgba(255,180,122,0.4);
   --col-wave:   #ffe07a; --col-wave-bg:   rgba(232,200,74,0.13);   --col-wave-border:   rgba(232,200,74,0.4);
-  --col-metal:  #0e94a8; --col-metal-bg:  rgba(14,148,168,0.16);   --col-metal-border:  rgba(14,148,168,0.45);
+  --col-metal:  #49c3d2; --col-metal-bg:  rgba(73,195,210,0.13);  --col-metal-border:  rgba(73,195,210,0.4);
 }
 
 /* Shared pill system: geometry comes from the modifier; state comes from ARIA. */
