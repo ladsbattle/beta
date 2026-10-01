@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ladsbattle.github.io/Love-and-Deepspace-Battle-Stats-tw/sitemap.xml

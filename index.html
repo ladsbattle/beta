@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>面板資料庫｜戀與深空戰鬥討論群</title>
+<meta name="google-site-verification" content="UHNgtRlHxJWFeI49KVa_EwdrqgQog3_SIMqEK59S5qY" />
+<meta name="description" content="戀與深空戰鬥討論群面板資料庫，收錄軌道與無盡挑戰通關資料，提供層數、日卡、搭檔、影片等條件查詢。">
+<link rel="canonical" href="https://ladsbattle.github.io/Love-and-Deepspace-Battle-Stats-tw/">
+<link rel="apple-touch-icon" href="assets/icons/site-icon-180.png">
+<link rel="icon" type="image/png" sizes="512x512" href="assets/icons/site-icon-512.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/site-icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/icons/site-icon-16.png">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:type" content="website">
+<meta property="og:title" content="面板資料庫｜戀與深空戰鬥討論群">
+<meta property="og:description" content="收錄戀與深空戰鬥討論群的軌道與無盡挑戰通關資料，支援層數、日卡、搭檔、影片等條件查詢。">
+<meta property="og:url" content="https://ladsbattle.github.io/Love-and-Deepspace-Battle-Stats-tw/">
+<meta name="twitter:card" content="summary">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=20261001-character-catalog-1">
+</head>
+<body>
+
+<header>
+  <a class="site-sub header-link" href="https://line.me/ti/g2/gw9Ds6tjgN1mPRRCKbc7pLofd4Wzd1MJoR71eQ" target="_blank" rel="noopener">戀與深空戰鬥討論群</a>
+  <div class="site-title-row">
+    <div class="site-title">面板資料庫</div>
+    <button class="info-button" onclick="openInfoModal()" aria-label="查看資料庫資訊" title="查看資料庫資訊">i</button>
+  </div>
+  <div class="title-divider" aria-hidden="true"></div>
+</header>
+
+<!-- Tab navigation -->
+<div class="tab-nav" data-active="panel">
+  <button class="tab-btn active" data-search-tab="panel" onclick="switchTab('panel', this)">軌道</button>
+  <button class="tab-btn" data-search-tab="endless" onclick="switchTab('endless', this)">無盡挑戰</button>
+</div>
+
+<!-- Panel section -->
+<div class="section active" id="section-panel">
+<div class="container">
+  <!-- Filter Panel -->
+  <div class="primary-filter-block">
+    <div class="filter-header">
+      <div class="filter-title">✦ 篩選條件</div>
+      <div class="filter-header-actions">
+        <button class="btn-reset btn-reset-compact ui-control ui-control--compact ui-control--utility" onclick="resetFilters()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 2.6-6.3M3 4v5h5"/></svg>
+          重設
+        </button>
+      </div>
+    </div>
+
+    <div class="primary-filter-content">
+      <div class="primary-filter-section">
+        <div class="orbit-label">軌道類型</div>
+        <div class="orbit-chips" id="orbitChips">
+          <div class="orbit-row-open">
+          </div>
+          <div class="orbit-divider"></div>
+          <div class="orbit-grid-directional">
+          </div>
+        </div>
+      </div>
+
+      <div class="primary-filter-section">
+        <div class="layer-suggestion-panel" id="layerSuggestionPanel" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-view" id="panelResultsView">
+    <div class="results-toolbar">
+      <div class="results-info" id="resultsInfo"></div>
+      <div class="panel-results-controls is-placeholder" id="panelResultsControls" aria-hidden="true">
+        <button class="advanced-filter-toggle ui-control ui-control--compact ui-control--expand" id="advancedFilterToggle" type="button" aria-expanded="false" aria-controls="advancedFilterPanel" onclick="toggleAdvancedFilters()" disabled>
+          <span>進階篩選</span>
+          <span class="advanced-filter-chevron" id="advancedFilterChevron" aria-hidden="true">⌄</span>
+        </button>
+      </div>
+    </div>
+    <div class="advanced-filter-panel" id="advancedFilterPanel" hidden>
+      <div class="advanced-filter-controls">
+        <label class="video-toggle video-toggle-compact advanced-video-toggle ui-control ui-control--compact ui-control--toggle">
+          <input type="checkbox" id="videoOnly" onchange="setPanelVideoOnly(this.checked)">
+          <span class="video-switch"></span>
+          <span>附影片</span>
+        </label>
+        <button class="btn-reset btn-reset-compact advanced-filter-reset ui-control ui-control--compact ui-control--utility" type="button" onclick="resetAdvancedFilters()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 2.6-6.3M3 4v5h5"/></svg>
+          重設
+        </button>
+      </div>
+      <div class="dynamic-filter-panel" id="dynamicFilterPanel">
+        <div class="dynamic-filter-grid">
+          <div class="dynamic-layer-box">
+            <div class="dynamic-layer-title">▲ 上層</div>
+            <div class="dynamic-chip-row" id="upperDynamicChips"></div>
+          </div>
+          <div class="dynamic-layer-box">
+            <div class="dynamic-layer-title">▼ 下層</div>
+            <div class="dynamic-chip-row" id="lowerDynamicChips"></div>
+          </div>
+        </div>
+        <div class="dynamic-no-match" id="dynamicNoMatch">找不到完全相符的結果，建議進行單層篩選或嘗試其他配置</div>
+      </div>
+    </div>
+    <div class="cards-grid" id="cardsGrid"></div>
+  </div>
+</div>
+</div><!-- end section-panel -->
+
+<!-- Endless challenge section -->
+<div class="section" id="section-endless">
+<div class="container">
+
+  <!-- Endless filter panel -->
+  <div class="primary-filter-block">
+    <div class="filter-header">
+      <div class="filter-title">✦ 篩選條件</div>
+      <div class="filter-header-actions">
+        <button class="btn-reset btn-reset-compact ui-control ui-control--compact ui-control--utility" onclick="resetEndlessFilters()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 2.6-6.3M3 4v5h5"/></svg>
+          重設
+        </button>
+      </div>
+    </div>
+    <div class="primary-filter-content" id="endlessSelector">
+      <div class="primary-filter-section">
+        <div class="orbit-label">角色</div>
+        <div class="endless-character-grid" id="endlessCharacterGrid"></div>
+      </div>
+      <div class="primary-filter-section">
+        <div class="orbit-label">搭檔</div>
+        <div class="endless-partner-grid" id="endlessPartnerGrid"></div>
+        <div class="endless-partner-placeholder primary-filter-placeholder" id="endlessPartnerPlaceholder">請先選擇角色</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-view" id="endlessResultsView">
+    <div class="results-toolbar">
+      <div class="results-info" id="endlessInfo"></div>
+      <div class="endless-results-controls is-placeholder" id="endlessResultsControls" aria-hidden="true">
+        <button class="advanced-filter-toggle ui-control ui-control--compact ui-control--expand" id="endlessAdvancedFilterToggle" type="button" aria-expanded="false" aria-controls="endlessAdvancedFilterPanel" onclick="toggleEndlessAdvancedFilters()" disabled>
+          <span>配置篩選</span>
+          <span class="advanced-filter-chevron" id="endlessAdvancedFilterChevron" aria-hidden="true">⌄</span>
+        </button>
+      </div>
+    </div>
+    <div class="advanced-filter-panel endless-advanced-filter-panel" id="endlessAdvancedFilterPanel" hidden>
+      <div class="advanced-filter-controls">
+        <label class="video-toggle video-toggle-compact advanced-video-toggle ui-control ui-control--compact ui-control--toggle">
+          <input type="checkbox" id="endlessVideoOnly" onchange="setEndlessVideoOnly(this.checked)">
+          <span class="video-switch"></span>
+          <span>附影片</span>
+        </label>
+        <button class="btn-reset btn-reset-compact advanced-filter-reset ui-control ui-control--compact ui-control--utility" onclick="resetEndlessAdvancedFilters()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 2.6-6.3M3 4v5h5"/></svg>
+          重設
+        </button>
+      </div>
+      <div class="dynamic-filter-grid single-column">
+        <div class="dynamic-layer-box">
+          <div class="dynamic-chip-row" id="endlessCardChips"></div>
+        </div>
+      </div>
+      <div class="dynamic-no-match" id="endlessDynamicNoMatch">找不到完全相符的結果</div>
+    </div>
+    <div class="endless-grid" id="endlessGrid"></div>
+  </div>
+</div>
+</div><!-- end section-endless -->
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalDirect()" aria-label="關閉">✕</button>
+    <div class="modal-header">
+      <div class="modal-orbit" id="mOrbit"></div>
+      <div class="modal-layer" id="mLayer"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-block" id="mUpperBlock">
+        <div id="mUpperContent"></div>
+      </div>
+      <div class="modal-block" id="mLowerBlock">
+        <div class="modal-block-title">▼ 下層</div>
+        <div id="mLowerContent"></div>
+      </div>
+    </div>
+    <div class="modal-footer" id="mFooter"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="infoOverlay" onclick="closeInfoModal(event)">
+  <div class="modal info-modal">
+    <button class="modal-close" onclick="closeInfoModalDirect()" aria-label="關閉">✕</button>
+    <div class="info-modal-header">
+      <h2 class="info-modal-title">關於面板資料庫</h2>
+    </div>
+    <div class="info-tabs" data-active="guide" role="tablist" aria-label="資料庫資訊分類">
+      <button class="info-tab active" type="button" role="tab" aria-selected="true" data-tab="guide" onclick="switchInfoTab('guide')">使用說明</button>
+      <button class="info-tab" type="button" role="tab" aria-selected="false" data-tab="intro" onclick="switchInfoTab('intro')">網站介紹</button>
+      <button class="info-tab" type="button" role="tab" aria-selected="false" data-tab="version" onclick="switchInfoTab('version')">版本紀錄</button>
+    </div>
+    <div class="info-content">
+      <section class="info-section info-panel active" id="infoPanelGuide" data-panel="guide" role="tabpanel">
+        <div class="info-section-desc">
+          <p><span class="info-highlight">面板資料庫</span>提供各軌道、各關卡的通關紀錄查詢，助力獵人們更有效率地養成通關隊伍。獵人可以先選擇欲查詢的項目，接著進行進階篩選，尋找符合自身隊伍配置的結果；本資料庫所有的通關資料卡片皆提供收藏之功能，首頁右上角的資料夾可以查看<span class="info-highlight">收藏</span>及<span class="info-highlight">瀏覽記錄</span>。</p>
+          <p>以下簡要介紹面板的基本概念：<span class="info-highlight">面板</span>指的是戰鬥系統中的<span class="info-highlight">隊伍屬性資訊</span>，玩家間交流關卡的通關資訊時，經常會使用面板進行討論與比較。獵人可透過編隊畫面中右上角的<span class="info-highlight">屬性詳情</span>查看面板，該頁面會顯示當前隊伍的各項數值，包括：生命、攻擊、防禦、暴擊、暴傷、誓約增傷、誓約回能、加速回能及虛弱增傷。</p>
+          <p>當戰鬥卡關時，您可以在這個資料庫尋找<span class="info-highlight">相同日卡、相同階數或相同搭檔</span>的面板進行參考，了解自身戰隊的情形。若面板較低，可將通關面板的數值視為目標進行養成，持續提升面板；若面板接近或是溢出，則可以考慮調整手法，或是繼續提升面板至更有餘裕的程度；或是於<span class="info-highlight">網站介紹</span>頁面加入討論群詢問。</p>
+        </div>
+      </section>
+      <section class="info-section info-panel" id="infoPanelIntro" data-panel="intro" role="tabpanel" hidden>
+        <div class="info-section-desc">
+          <p>本資料庫為LINE匿名社群<span class="info-highlight">戀與深空戰鬥討論群</span>所有，目的為收錄並整理Facebook社團<span class="info-highlight">戀與深空戰鬥討論群_臉書面板分享專區</span>及其前身<span class="info-highlight">戀與深空戰鬥討論群</span>YouTube頻道的開放穩定軌道、開放波動軌道、定向軌道及無盡挑戰通關資料，提供各位玩家便捷的查詢管道；我們相信每一份通關資料都有其參考價值，也珍視群友每一次的通關心得分享，若您有意願分享通關資料，歡迎加入分享專區。</p>
+          <div class="info-link-actions">
+            <a class="info-link-button" href="https://www.facebook.com/share/g/1EHo4wBBby/" target="_blank" rel="noopener">
+              <svg class="info-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07l-1.21 1.21"></path>
+                <path d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 0 0 7.07 7.07l1.21-1.21"></path>
+              </svg>
+              面板分享專區
+            </a>
+          </div>
+          <p>如需參考日冕、芯核及戰鬥攻略或其他討論，請移步<span class="info-highlight">戀與深空戰鬥討論群</span>。</p>
+          <div class="info-link-actions">
+            <a class="info-link-button" href="https://line.me/ti/g2/gw9Ds6tjgN1mPRRCKbc7pLofd4Wzd1MJoR71eQ" target="_blank" rel="noopener">
+              <svg class="info-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07l-1.21 1.21"></path>
+                <path d="M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 0 0 7.07 7.07l1.21-1.21"></path>
+              </svg>
+              戀與深空戰鬥討論群
+            </a>
+          </div>
+        </div>
+      </section>
+      <section class="info-section info-panel" id="infoPanelVersion" data-panel="version" role="tabpanel" hidden>
+        <div class="version-history-list" id="versionHistoryList">
+          <div class="version-history-empty">版本紀錄載入中…</div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="search-link-status" id="searchLinkStatus" role="status" aria-live="polite" hidden></div>
+<dialog class="modal info-modal contributors-modal" id="contributorsDialog" aria-labelledby="contributorsTitle" aria-describedby="contributorsIntro">
+  <button class="modal-close" type="button" data-contributors-action="close" aria-label="關閉感謝名單">✕</button>
+  <div class="info-modal-header">
+    <h2 class="info-modal-title" id="contributorsTitle" tabindex="-1" autofocus>特別感謝</h2>
+  </div>
+  <p id="contributorsIntro">感謝每一位為面板資料庫做出貢獻的玩家，以下名單僅依照英文字母及中文筆畫排序，順序並不代表貢獻多寡或重要性。</p>
+  <div class="info-content contributors-scroll" role="region" aria-label="貢獻者名單" tabindex="0">
+    <div id="contributorsContent" aria-live="polite"></div>
+    <p class="contributors-contact">本資料庫的貢獻者眾多，且僅展示公開發文者之大名（即不列出匿名發文者，以保護其資訊），若您發現名單有錯誤或遺漏，或者不希望自己的大名展示於其中，請不吝聯繫網站製作者<a class="contributors-maker" href="https://www.facebook.com/groups/1655830235133299/user/61579601102041" target="_blank" rel="noopener noreferrer">Ting Ting Wang</a>進行處理，感謝您的支持。</p>
+  </div>
+</dialog>
+<script src="js/catalog.js?v=20261001-character-catalog-8"></script>
+<script src="js/app.js?v=20261001-character-catalog-1"></script>
+
+<footer class="site-footer">
+  This website belongs to 
+  <a href="https://line.me/ti/g2/gw9Ds6tjgN1mPRRCKbc7pLofd4Wzd1MJoR71eQ" target="_blank" rel="noopener">
+    戀與深空戰鬥討論群
+  </a>
+  <span aria-hidden="true"> · </span><button class="footer-contributors" type="button" data-contributors-action="open" aria-haspopup="dialog" aria-controls="contributorsDialog">Contributors</button>
+  <div id="lastUpdated"></div>
+</footer>
+
+<div class="local-folder-panel" id="localFolderPanel">
+  <div class="folder-header">
+    <div>
+      <div class="folder-title">✦ 個人資料夾</div>
+      <div class="folder-note">以下資料僅會儲存於當前瀏覽器中</div>
+    </div>
+    <button class="folder-close" onclick="closeFolderPanel()" aria-label="關閉資料夾">✕</button>
+  </div>
+  <div class="folder-tabs" data-active="favorites">
+    <button class="folder-tab active" data-tab="favorites" onclick="switchFolderTab('favorites')">收藏</button>
+    <button class="folder-tab" data-tab="history" onclick="switchFolderTab('history')">瀏覽記錄</button>
+  </div>
+  <div class="folder-toolbar">
+    <button class="folder-clear-btn" id="folderClearBtn" onclick="clearFolderTab()">清除</button>
+  </div>
+  <div class="folder-list" id="folderList"></div>
+</div>
+
+<button class="folder-toggle" id="folderToggleBtn" onclick="toggleFolderPanel()" aria-label="資料夾">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M3 6.5A2.5 2.5 0 0 1 5.5 4H10l2 2h6.5A2.5 2.5 0 0 1 21 8.5v8A2.5 2.5 0 0 1 18.5 19h-13A2.5 2.5 0 0 1 3 16.5z"/>
+    <path d="M3 9h18"/>
+  </svg>
+</button>
+
+<button class="back-to-top" id="backToTopBtn" onclick="scrollToTop()" aria-label="去頁首" title="去頁首">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M6 5h12M12 19V8M7 13l5-5 5 5"/>
+  </svg>
+</button>
+
+<button class="back-to-bottom" id="backToBottomBtn" onclick="scrollToBottom()" aria-label="去頁尾" title="去頁尾">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+    <path d="M6 19h12M12 5v11M7 11l5 5 5-5"/>
+  </svg>
+</button>
+
+</body>
+</html>
